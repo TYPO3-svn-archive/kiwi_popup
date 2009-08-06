@@ -1,0 +1,28 @@
+<T3DataStructure>
+<sheets>
+	<GENERAL>
+		<ROOT>
+			<TCEforms>
+				<sheetTitle>LLL:EXT:kiwi_popup/locallang.xml:sheet_general</sheetTitle>
+			</TCEforms>
+			<type>array</type>
+			<el>
+				<popupfile>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:popupfile</label>
+						<config>
+							<type>group</type>
+							<internal_type>file</internal_type>
+							<allowed>jpg,gif</allowed>
+							<max_size>2048</max_size>
+							<uploadfolder>uploads/tx_kiwipopup</uploadfolder>
+							<maxitems>1</maxitems>
+							<size>1</size>
+						</config>
+					</TCEforms>
+				</popupfile>
+			</el>
+		</ROOT>
+	</GENERAL>
+</sheets>
+</T3DataStructure>
