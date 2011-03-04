@@ -10,14 +10,15 @@
 			<label index="pi1_plus_wiz_description">Opens image popup when loading page (such as a lightbox)</label>
 			<label index="sheet_general">General Options</label>
 			<label index="popupfile">Popup Image</label>
+			<label index="sessionStorage">Show Popup only once a session?</label>
 		</languageKey>
-		
-		
+
 		<languageKey index="de" type="array">
 			<label index="pi1_title">Kiwi Popup</label>
 			<label index="pi1_plus_wiz_description">Bild beim Öffnen der Seite als Popup öffnen (Lightbox-like)</label>
 			<label index="sheet_general">Allgemein</label>
 			<label index="popupfile">Popup-Bild</label>
+			<label index="sessionStorage">Popup nur einmal pro Session anzeigen?</label>
 		</languageKey>
 	</data>
 </T3locallang>

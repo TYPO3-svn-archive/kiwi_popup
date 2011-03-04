@@ -17,10 +17,22 @@
 							<max_size>2048</max_size>
 							<uploadfolder>uploads/tx_kiwipopup</uploadfolder>
 							<maxitems>1</maxitems>
+							<minitems>1</minitems>
 							<size>1</size>
 						</config>
 					</TCEforms>
 				</popupfile>
+
+				<sessionStorage>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:sessionStorage</label>
+						<config>
+							<type>check</type>
+							<default>1</default>
+						</config>
+					</TCEforms>
+				</sessionStorage>
+
 			</el>
 		</ROOT>
 	</GENERAL>
