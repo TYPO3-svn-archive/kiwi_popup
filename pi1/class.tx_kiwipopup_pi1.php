@@ -123,12 +123,18 @@ class tx_kiwipopup_pi1 extends tslib_pibase {
 
 				// autoclose enabled?
 				if ($this->ffdata['autoClose']) {
-					$this->renderer->assign('autoclose', intval($this->ffdata['autoCloseSeconds']));
+					$autoclose = intval($this->ffdata['autoCloseSeconds']);
 					// hide close button?
-					if ($this->ffdata['hideCloseButton']) {
-						$this->renderer->assign('hideclosebutton', 1);
-					}
+					if ($this->ffdata['hideCloseButton']) $hideclosebutton = 1;
+					else $hideclosebutton = 0;
+				} else {
+					$autoclose = 0;
+					$hideclosebutton = 0;
 				}
+				$this->renderer->assign('autoclose', $autoclose);
+				$this->renderer->assign('hideclosebutton', $hideclosebutton);
+
+
 
 				// link popuup?
 				if ($this->ffdata['link']) {
