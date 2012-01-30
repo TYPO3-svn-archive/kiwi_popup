@@ -1,0 +1,86 @@
+<f:debug>{autoclose}</f:debug>
+<f:debug>{hideclosebutton}</f:debug>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        var layer = $('#kiwi_popup_layer');
+        var content = $('#kiwi_popup_content');
+        var inner = $('#kiwi_popup_inner');
+        var close = $('#kiwi_popup_close');
+        var link = '{link}';
+        var autoclose = {autoclose};
+        var hideclosebutton = {hideclosebutton};
+
+        // calculate top position
+        windowHeight = $(window).height();
+        contentHeight = content.height();
+        topPos = (windowHeight - contentHeight) / 2;
+        content.css('top', topPos);
+
+        // calculate left position
+        windowWidth = $(window).width();
+        contentWidth = content.width();
+        leftPos = (windowWidth - contentWidth) / 2;
+        content.css('left', leftPos);
+        layer.hide().fadeIn(1000);
+
+        if (!hideclosebutton) {
+            close.click(function() {
+                layer.fadeOut(1000);
+                content.remove();
+            });
+        }
+
+        if (link) {
+            inner.css('cursor', 'pointer');
+            inner.click(function() {
+                window.location.href = link;
+            });
+        } else if (!hideclosebutton) {
+            inner.css('cursor', 'pointer');
+            inner.click(function() {
+                layer.fadeOut(1000);
+                content.remove();
+            });
+        }
+
+
+
+        if (autoclose) {
+            var timerUpdate = setInterval(
+                function () {
+                    if (autoclose > 0) {
+                        $('#kiwi_popup_timevalue').text(autoclose);
+                        autoclose--;
+                    } else {
+                        layer.fadeOut(1000);
+                        content.remove();
+                        clearInterval(timerUpdate);
+                    }
+                }
+            , 1000);
+        }
+
+    });
+</script>
+
+
+<f:debug>{link}</f:debug>
+
+<div id="kiwi_popup_layer">
+    <div id="kiwi_popup_content">
+        <f:if condition="{hideclosebutton}">
+            <f:then></f:then>
+            <f:else><div id="kiwi_popup_close" title="<f:translate key="LLL:EXT:kiwi_popup/pi1/locallang.xml:close" />">&nbsp;</div></f:else>
+        </f:if>
+        <div id="kiwi_popup_inner">{content}</div>
+        <f:if condition="{caption}"><div id="kiwi_popup_caption">{caption}</div></f:if>
+        <f:if condition="{autoclose}">
+            <div id="kiwi_popup_autoclose">Dieses Fenster schliesst sich in <span id="kiwi_popup_timevalue">{autoclose}</span> automatisch</div>
+        </f:if>
+
+    </div>
+</div>

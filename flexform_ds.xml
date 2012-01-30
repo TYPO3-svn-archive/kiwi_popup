@@ -7,13 +7,52 @@
 			</TCEforms>
 			<type>array</type>
 			<el>
+
+				<type>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:type</label>
+						<onChange>reload</onChange>
+						<config>
+							<type>select</type>
+							<items>
+								<numIndex index="0">
+									<numIndex index="0">LLL:EXT:kiwi_popup/locallang.xml:type.image</numIndex>
+									<numIndex index="1">IMAGE</numIndex>
+								</numIndex>
+								<numIndex index="1">
+									<numIndex index="0">LLL:EXT:kiwi_popup/locallang.xml:type.html</numIndex>
+									<numIndex index="1">HTML</numIndex>
+								</numIndex>
+								<numIndex index="2">
+									<numIndex index="0">LLL:EXT:kiwi_popup/locallang.xml:type.cobj</numIndex>
+									<numIndex index="1">COBJ</numIndex>
+								</numIndex>
+							</items>
+							<size>1</size>
+						</config>
+					</TCEforms>
+				</type>
+
+				<popupcontent>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:popupcontent</label>
+						<displayCond>FIELD:type:=:HTML</displayCond>
+						<config>
+							<type>text</type>
+							<cols>52</cols>
+							<rows>5</rows>
+						</config>
+					</TCEforms>
+				</popupcontent>
+
 				<popupfile>
 					<TCEforms>
 						<label>LLL:EXT:kiwi_popup/locallang.xml:popupfile</label>
+						<displayCond>FIELD:type:=:IMAGE</displayCond>
 						<config>
 							<type>group</type>
 							<internal_type>file</internal_type>
-							<allowed>jpg,gif</allowed>
+							<allowed>jpg,gif,png,bmp</allowed>
 							<max_size>2048</max_size>
 							<uploadfolder>uploads/tx_kiwipopup</uploadfolder>
 							<maxitems>1</maxitems>
@@ -23,9 +62,75 @@
 					</TCEforms>
 				</popupfile>
 
+				<imageMaxW>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:imageMaxW</label>
+						<displayCond>FIELD:type:=:IMAGE</displayCond>
+						<config>
+							<type>input</type>
+							<default></default>
+							<eval>trim,int</eval>
+							<size>4</size>
+						</config>
+					</TCEforms>
+				</imageMaxW>
+
+				<imageMaxH>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:imageMaxH</label>
+						<displayCond>FIELD:type:=:IMAGE</displayCond>
+						<config>
+							<type>input</type>
+							<default></default>
+							<eval>trim,int</eval>
+							<size>4</size>
+						</config>
+					</TCEforms>
+				</imageMaxH>
+
+				<cObject>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:cObject</label>
+						<displayCond>FIELD:type:=:COBJ</displayCond>
+						<config>
+							<type>group</type>
+							<internal_type>db</internal_type>
+							<allowed>tt_content</allowed>
+							<maxitems>3</maxitems>
+							<minitems>1</minitems>
+							<size>3</size>
+						</config>
+					</TCEforms>
+				</cObject>
+
+
+				<showCaption>
+					<TCEforms>
+						<onChange>reload</onChange>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:showCaption</label>
+						<config>
+							<type>check</type>
+							<default>0</default>
+						</config>
+					</TCEforms>
+				</showCaption>
+
+				<captionText>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:captionText</label>
+						<displayCond>FIELD:showCaption:=:1</displayCond>
+						<config>
+							<type>text</type>
+							<cols>52</cols>
+							<rows>5</rows>
+						</config>
+					</TCEforms>
+				</captionText>
+
 				<sessionStorage>
 					<TCEforms>
 						<label>LLL:EXT:kiwi_popup/locallang.xml:sessionStorage</label>
+						<onChange>reload</onChange>
 						<config>
 							<type>check</type>
 							<default>1</default>
@@ -33,8 +138,129 @@
 					</TCEforms>
 				</sessionStorage>
 
+				<sessionStorageOption>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:sessionStorageOption</label>
+						<displayCond>FIELD:sessionStorage:=:1</displayCond>
+						<config>
+							<type>select</type>
+							<items type="array">
+								<numIndex index="0" type="array">
+									<numIndex index="0">LLL:EXT:kiwi_popup/locallang.xml:sessionStorageOption.general</numIndex>
+									<numIndex index="1">general</numIndex>
+								</numIndex>
+								<numIndex index="1" type="array">
+									<numIndex index="0">LLL:EXT:kiwi_popup/locallang.xml:sessionStorageOption.page</numIndex>
+									<numIndex index="1">page</numIndex>
+								</numIndex>
+								<numIndex index="2" type="array">
+									<numIndex index="0">LLL:EXT:kiwi_popup/locallang.xml:sessionStorageOption.plugin</numIndex>
+									<numIndex index="1">plugin</numIndex>
+								</numIndex>
+							</items>
+						</config>
+						<default>2</default>
+					</TCEforms>
+				</sessionStorageOption>
+
+
+				<autoClose>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:autoClose</label>
+						<onChange>reload</onChange>
+						<config>
+							<type>check</type>
+							<default>0</default>
+						</config>
+					</TCEforms>
+				</autoClose>
+
+				<autoCloseSeconds>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:autoCloseSeconds</label>
+						<displayCond>FIELD:autoClose:=:1</displayCond>
+						<config>
+							<type>input</type>
+							<size>4</size>
+							<eval>int</eval>
+							<range type="array">
+								<upper>60</upper>
+								<lower>1</lower>
+							</range>
+							<default>1</default>
+						</config>
+					</TCEforms>
+				</autoCloseSeconds>
+
+				<hideCloseButton>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:hideCloseButton</label>
+						<displayCond>FIELD:autoClose:=:1</displayCond>
+						<config>
+							<type>check</type>
+							<default>0</default>
+						</config>
+					</TCEforms>
+				</hideCloseButton>
+
+
+
 			</el>
 		</ROOT>
 	</GENERAL>
+
+	<JAVASCRIPT>
+		<ROOT>
+			<TCEforms>
+				<sheetTitle>LLL:EXT:kiwi_popup/locallang.xml:sheet_javascript</sheetTitle>
+			</TCEforms>
+			<type>array</type>
+			<el>
+				<jQueryInclude>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:jQueryInclude</label>
+						<config>
+							<type>check</type>
+							<default>1</default>
+						</config>
+					</TCEforms>
+				</jQueryInclude>
+			</el>
+		</ROOT>
+	</JAVASCRIPT>
+
+	<LINK>
+		<ROOT>
+			<TCEforms>
+				<sheetTitle>LLL:EXT:kiwi_popup/locallang.xml:sheet_link</sheetTitle>
+			</TCEforms>
+			<type>array</type>
+			<el>
+				<link>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:link</label>
+						<config>
+							<type>input</type>
+							<size>30</size>
+							<max>256</max>
+							<checkbox></checkbox>
+							<eval>trim</eval>
+							<wizards type="array">
+								<_PADDING type="integer">2</_PADDING>
+								<link type="array">
+									<type>popup</type>
+									<title>Link</title>
+									<icon>link_popup.gif</icon>
+									<script>browse_links.php?mode=wizard</script>
+									<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+								</link>
+							</wizards>
+						</config>
+					</TCEforms>
+				</link>
+			</el>
+		</ROOT>
+	</LINK>
+
 </sheets>
 </T3DataStructure>

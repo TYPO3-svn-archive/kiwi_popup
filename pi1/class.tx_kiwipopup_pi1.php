@@ -67,52 +67,164 @@ class tx_kiwipopup_pi1 extends tslib_pibase {
 			}
 		}
 
-		if ($this->ffdata['sessionStorage']) {
-			// get session data
-			$this->sD = $GLOBALS['TSFE']->fe_user->getKey('ses','tx_kiwipopup');
-		}
-
-
 		// show only once per session (if activated in ff)
-		if (!$this->ffdata['sessionStorage'] || $this->sD['shown'] != $GLOBALS['TSFE']->id) {
+		// if (!$this->ffdata['sessionStorage'] || !t3lib_div::inArray($this->sD['shown'], $this->cObj->data['uid'])) {
+		if (!$this->ffdata['sessionStorage'] || !$this->alreadyShown()) {
 
-			// generate file path
-			$filePath = 'uploads/tx_kiwipopup/'.$this->ffdata['popupfile'];
+			// IMAGE
+			if ($this->ffdata['type'] == 'IMAGE') {
+				// generate file path
+				$imageConf['file'] = 'uploads/tx_kiwipopup/'.$this->ffdata['popupfile'];
+				if (intval($this->ffdata['imageMaxW'])) $imageConf['file.']['maxW'] = intval($this->ffdata['imageMaxW']);
+				if (intval($this->ffdata['imageMaxH'])) $imageConf['file.']['maxH'] = intval($this->ffdata['imageMaxH']);
+				$content = $this->cObj->IMAGE($imageConf);
+			}
 
-			// check if path is valid
-			if (t3lib_div::validPathStr($filePath)) {
+			// HTML
+			if ($this->ffdata['type'] == 'HTML') {
+				$content = $this->ffdata['popupcontent'];
+			}
+
+			// COBJ
+			if ($this->ffdata['type'] == 'COBJ') {
+				$cObjConf = array(
+					'tables' => 'tt_content',
+					'source' => $this->ffdata['cObject'],
+					'dontCheckPid' => 1
+				);
+				$content = $this->cObj->RECORDS($cObjConf);
+			}
+
+			// render content
+			if (!empty($content)) {
+
+				// get html template
+				$this->templateFile = t3lib_extMgm::siteRelPath($this->extKey).'res/kiwi_popup.tmpl';
+				$this->templateCode = $this->cObj->fileResource($this->templateFile);
+
+				// init Fluid
+				$this->initFluid();
+
+				// include jQuery library?
+				if ($this->ffdata['jQueryInclude']) $this->jQueryInclude();
 
 				// loadCSS
 				$cssfile = t3lib_extMgm::siteRelPath($this->extKey).'res/kiwi_popup.css';
 				$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId] .= '<link rel="stylesheet" type="text/css" href="'.$cssfile.'" />';
 
-				// include js
-				$lightboxPath = t3lib_extMgm::siteRelPath($this->extKey).'res/lightbox.js';
-				$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId] .= '<script type="text/javascript" src="'.$lightboxPath.'"></script>';
+				// get html template
+				$this->templateFile = t3lib_extMgm::siteRelPath($this->extKey).'pi1/'.$this->prefixId.'.html';
+				$this->templateCode = $this->cObj->fileResource($this->templateFile);
 
-				// generate fake link
-				unset($linkconf);
-				$linkconf['parameter'] = $filePath;
-	 			$fileLink =  $this->cObj->typoLink('text',$linkconf);
-				// print fake link and
-				$content = '
-					<span style="display:none;"><a href="'.$filePath.'" rel="lightbox" id="kiwi_popup_element">image #1</a></span>
-					<script type="text/javascript">
-						var elem = document.getElementById("kiwi_popup_element");
-						initLightbox();
-						showLightbox(elem);
-					</script>';
-				$sessionVars['shown'] = $GLOBALS['TSFE']->id;
-
-				if ($this->ffdata['sessionStorage']) {
-					$GLOBALS['TSFE']->fe_user->setKey('ses', 'tx_kiwipopup', $sessionVars);
-					$GLOBALS['TSFE']->storeSessionData();
+				// show caption?
+				if ($this->ffdata['showCaption']) {
+					$this->renderer->assign('caption', $this->ffdata['captionText']);
 				}
+
+				// autoclose enabled?
+				if ($this->ffdata['autoClose']) {
+					$this->renderer->assign('autoclose', intval($this->ffdata['autoCloseSeconds']));
+					// hide close button?
+					if ($this->ffdata['hideCloseButton']) {
+						$this->renderer->assign('hideclosebutton', 1);
+					}
+				}
+
+				// link popuup?
+				if ($this->ffdata['link']) {
+					unset($linkconf);
+					$linkconf['parameter'] = $this->ffdata['link'];
+					$linkURL = $this->cObj->typoLink_URL($linkconf);
+					$this->renderer->assign('link', $linkURL);
+				}
+
+				// assign content to renderer
+				$this->renderer->assign('content', $content);
+
+				// store in session
+				if ($this->ffdata['sessionStorage']) {
+					$sessionVars = $this->generateSessionData();
+				}
+
+				// render
+				return $this->pi_wrapInBaseClass($this->renderer->render());
 
 			}
 			return $this->pi_wrapInBaseClass($content);
 		}
 	}
+
+	/*
+	 * function generateSessionData
+	 */
+	function generateSessionData() {
+		$sessionVars = $GLOBALS['TSFE']->fe_user->getKey('ses','tx_kiwipopup');
+		switch ($this->ffdata['sessionStorageOption']) {
+			case 'general': // GENERAL
+				$sessionVars['general'] = 1;
+				break;
+			case 'page': // PAGE ID
+				$sessionVars['page'][$GLOBALS['TSFE']->id] = 1;
+				break;
+			case 'plugin': // PLUGIN UID
+			default:
+				$sessionVars['plugin'][$this->cObj->data['uid']] = 1;
+				break;
+		}
+		$GLOBALS['TSFE']->fe_user->setKey('ses', 'tx_kiwipopup', $sessionVars);
+		$GLOBALS['TSFE']->storeSessionData();
+	}
+
+
+	/*
+	 * function alreadyShown
+	 */
+	function alreadyShown() {
+
+		// do not process check if session storage is disabled
+		if (!$this->ffdata['sessionStorage']) return false;
+
+		// get session data
+		$this->sD = $GLOBALS['TSFE']->fe_user->getKey('ses','tx_kiwipopup');
+
+		// check if session entry for current element exists
+		switch($this->ffdata['sessionStorageOption']) {
+			case 'general': // GENERAL
+				if ($this->sD['general'] == 1) return true;
+				break;
+			case 'page': // PAGE ID
+				if ($this->sD['page'][$GLOBALS['TSFE']->id]==1) return true;
+				break;
+			case 'plugin': // PLUGIN UID
+				if ($this->sD['plugin'][$this->cObj->data['uid']] == 1) return true;
+				break;
+		}
+		// return false if no session var found
+		return false;
+	}
+
+	/*
+	 * function initFluid
+	 * @param $arg
+	 */
+	function initFluid() {
+		$this->renderer = t3lib_div::makeInstance('Tx_Fluid_View_TemplateView');
+		$controllerContext = t3lib_div::makeInstance('Tx_Extbase_MVC_Controller_ControllerContext');
+		$controllerContext->setRequest(t3lib_div::makeInstance('Tx_Extbase_MVC_Request'));
+		$this->renderer->setControllerContext($controllerContext);
+		$this->renderer->setTemplatePathAndFilename($this->templateFile);
+	}
+
+
+	/*
+	 * function jQueryInclude
+	 */
+	function jQueryInclude() {
+		$jQuerySrc = t3lib_extMgm::siteRelPath($this->extKey).'res/jQuery/jquery-1.7.1.min';
+		$GLOBALS['TSFE']->additionalHeaderData['kiwipopup_jquery'] = '<script type="text/javascript" src="'.$jQuerySrc.'"></script>';
+	}
+
+
 }
 
 

@@ -1,53 +1,58 @@
-#keyboardMsg {
-	text-align: right;
-	padding: 10px;
-}
-#keyboardMsg a {
-	color: white;
-	margin-top: 10px;
-	color: white;
+#kiwi_popup_layer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 90;
+	width: 100%;
+	height: 100%;
+	background-image: url(img/layer-opacity.png);
+	text-align: center;
+	vertical-align: middle;
 }
 
+#kiwi_popup_content {
+	position: absolute;
+	border: 5px solid white;
+	background-color: #666;
+	margin: 0;
+	padding: 0;
+	line-height:1px;
+	height: auto;
+}
 
-#lightbox{	
-	/* position: absolute;	 */
-	/* left: 0;  */
-	/* width: 100%;  */
-	z-index: 100; 
-	text-align: center; 
+#kiwi_popup_inner {
+	margin: 0;
+	padding: 0;
 	line-height: 0;
+	border: 0;
 }
-#lightbox img{ width: auto; height: auto;}
-#lightbox a img{ border: none; }
 
-#outerImageContainer{ position: relative; background-color: #fff; width: 250px; height: 250px; margin: 0 auto; }
-#imageContainer{ padding: 10px; }
+#kiwi_popup_close {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	top: 20px;
+	right: -45px;
+	cursor: pointer;
+	background: url(img/close.png) top left;
+	color: white;
+}
+#kiwi_popup_close:hover {
+	background: url(img/close.png) top right;
+}
 
-#loading{ position: absolute; top: 40%; left: 0%; height: 25%; width: 100%; text-align: center; line-height: 0; }
-#hoverNav{ position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: 10; }
-#imageContainer>#hoverNav{ left: 0;}
-#hoverNav a{ outline: none;}
+#kiwi_popup_caption {
+	background: white;
+	color: black;
+	text-align: center;
+	padding: 5px 3px 3px 3px;
+	font: 11px Century Gothic, Verdana, Arial, sans-serif black;
+}
 
-#imageDataContainer{ font: 10px Verdana, Helvetica, sans-serif; background-color: #fff; margin: 0 auto; line-height: 1.4em; overflow: auto; width: 100%	; }
-
-#imageData{	padding:0 10px; color: #666; }
-#imageData #imageDetails{ width: 70%; float: left; text-align: left; }	
-#imageData #caption{ font-weight: bold;	}
-#imageData #numberDisplay{ display: block; clear: left; padding-bottom: 1.0em;	}			
-#imageData #bottomNavClose{ width: 20px; float: right;  padding-bottom: 0.7em; outline: none;}	
-
-#imageData #bottomSaveMode{ width: 20px; float: right;  padding-bottom: 0.7em; outline: none;}
-#imageData #bottomPrintMode{ width: 20px; float: right;  padding-bottom: 0.7em; outline: none;}
-
-#overlay{ 
-	position: absolute; 
-	top: 0; 
-	left: 0; 
-	z-index: 90; 
-	width: 100%; 
-	height: 500px; 
-	background-color: #000; 
-	opacity: .8;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-	filter: alpha(opacity=80);
+#kiwi_popup_autoclose {
+	display: block;
+	background: white;
+	text-align: right;
+	padding: 5px 3px 3px 3px;
+	font: 11px Century Gothic, Verdana, Arial, sans-serif black;
 }

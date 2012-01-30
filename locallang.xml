@@ -8,17 +8,59 @@
 		<languageKey index="default" type="array">
 			<label index="pi1_title">Kiwi Popup</label>
 			<label index="pi1_plus_wiz_description">Opens image popup when loading page (such as a lightbox)</label>
-			<label index="sheet_general">General Options</label>
+			<label index="sheet_general">General</label>
+			<label index="type">Popup content type</label>
+			<label index="type.image">Image</label>
+			<label index="type.html">HTML</label>
+			<label index="type.cobj">Content Object</label>
+			<label index="popupcontent">HTML Content</label>
 			<label index="popupfile">Popup Image</label>
+			<label index="cObject">Content element</label>
 			<label index="sessionStorage">Show Popup only once a session?</label>
-		</languageKey>
+			<label index="sessionStorageOption">Choose session storage method</label>
+			<label index="sessionStorageOption.general">By general</label>
+			<label index="sessionStorageOption.page">By page ID</label>
+			<label index="sessionStorageOption.plugin">By plugin UID</label>
+			<label index="autoClose">Enable time based hiding of layer</label>
+			<label index="autoCloseSeconds">Seconds to wait for hiding layer</label>
+			<label index="hideCloseButton">Hide close button</label>
+			<label index="imageMaxW">Max image width (px)</label>
+			<label index="imageMaxH">Max image height (px)</label>
+			<label index="showCaption">Show Caption</label>
+			<label index="captionText">Caption text</label>
+			<label index="sheet_javascript">Javascript</label>
+			<label index="jQueryInclude">Include jQuery</label>
+			<label index="sheet_link">Link</label>
+			<label index="link">Link</label>
+		</languageKey >
 
 		<languageKey index="de" type="array">
 			<label index="pi1_title">Kiwi Popup</label>
 			<label index="pi1_plus_wiz_description">Bild beim Öffnen der Seite als Popup öffnen (Lightbox-like)</label>
 			<label index="sheet_general">Allgemein</label>
+			<label index="type">Popup Typ</label>
+			<label index="type.image">Bild</label>
+			<label index="type.html">HTML</label>
+			<label index="type.cobj">Content-Element</label>
+			<label index="popupcontent">HTML Content</label>
 			<label index="popupfile">Popup-Bild</label>
+			<label index="cObject">Content-Element</label>
 			<label index="sessionStorage">Popup nur einmal pro Session anzeigen?</label>
+			<label index="sessionStorageOption">Methode der Session-Speicherung</label>
+			<label index="sessionStorageOption.general">Übergreifend</label>
+			<label index="sessionStorageOption.page">Über Seiten-ID</label>
+			<label index="sessionStorageOption.plugin">Über Plugin-ID</label>
+			<label index="autoClose">Automatisches, zeitgesteuertes Ausblenden des Popups aktivieren</label>
+			<label index="autoCloseSeconds">Sekunden bis zum automatischen Ausblenden</label>
+			<label index="hideCloseButton">Schliessen-Button verstecken</label>
+			<label index="imageMaxW">Maximale Bildbreite (px)</label>
+			<label index="imageMaxH">Maximale Bildhöhe (px)</label>
+			<label index="showCaption">Beschriftung anzeigen</label>
+			<label index="captionText">Beschriftungstext</label>
+			<label index="sheet_javascript">Javascript</label>
+			<label index="jQueryInclude">jQuery einbinden</label>
+			<label index="sheet_link">Verlinkung</label>
+			<label index="link">Linkziel</label>
 		</languageKey>
 	</data>
 </T3locallang>
