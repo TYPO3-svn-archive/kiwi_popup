@@ -226,7 +226,7 @@ class tx_kiwipopup_pi1 extends tslib_pibase {
 	 * function jQueryInclude
 	 */
 	function jQueryInclude() {
-		$jQuerySrc = t3lib_extMgm::siteRelPath($this->extKey).'res/jQuery/jquery-1.7.1.min';
+		$jQuerySrc = t3lib_extMgm::siteRelPath($this->extKey).'res/jQuery/jquery-1.9.1.min';
 		$GLOBALS['TSFE']->additionalHeaderData['kiwipopup_jquery'] = '<script type="text/javascript" src="'.$jQuerySrc.'"></script>';
 	}
 

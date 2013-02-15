@@ -1,8 +1,3 @@
-<f:debug>{autoclose}</f:debug>
-<f:debug>{hideclosebutton}</f:debug>
-
-
-
 <script type="text/javascript">
     $(document).ready(function() {
 
@@ -68,8 +63,6 @@
 </script>
 
 
-<f:debug>{link}</f:debug>
-
 <div id="kiwi_popup_layer">
     <div id="kiwi_popup_content">
         <f:if condition="{hideclosebutton}">
@@ -79,7 +72,7 @@
         <div id="kiwi_popup_inner">{content}</div>
         <f:if condition="{caption}"><div id="kiwi_popup_caption">{caption}</div></f:if>
         <f:if condition="{autoclose}">
-            <div id="kiwi_popup_autoclose">Dieses Fenster schliesst sich in <span id="kiwi_popup_timevalue">{autoclose}</span> automatisch</div>
+            <div id="kiwi_popup_autoclose">Dieses Fenster schliesst sich in <span id="kiwi_popup_timevalue">{autoclose}</span> s automatisch</div>
         </f:if>
 
     </div>
