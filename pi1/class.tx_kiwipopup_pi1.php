@@ -68,16 +68,40 @@ class tx_kiwipopup_pi1 extends tslib_pibase {
 		}
 
 		// show only once per session (if activated in ff)
-		// if (!$this->ffdata['sessionStorage'] || !t3lib_div::inArray($this->sD['shown'], $this->cObj->data['uid'])) {
 		if (!$this->ffdata['sessionStorage'] || !$this->alreadyShown()) {
 
 			// IMAGE
 			if ($this->ffdata['type'] == 'IMAGE') {
-				// generate file path
-				$imageConf['file'] = 'uploads/tx_kiwipopup/'.$this->ffdata['popupfile'];
-				if (intval($this->ffdata['imageMaxW'])) $imageConf['file.']['maxW'] = intval($this->ffdata['imageMaxW']);
-				if (intval($this->ffdata['imageMaxH'])) $imageConf['file.']['maxH'] = intval($this->ffdata['imageMaxH']);
-				$content = $this->cObj->IMAGE($imageConf);
+				
+				$showImage = true;
+				
+				$images = t3lib_div::trimExplode(",", $this->ffdata['popupfile'], true);
+				
+				// random image or first?
+				$this->imageKey = (is_array($images) && count($images) > 1) ? array_rand($images, 1) : 0;
+				$image = $images[$this->imageKey];
+				
+				// has this image already been showed in session?
+				if ($this->ffdata['sessionStorageOption'] == 'image') {
+					$this->sD = $GLOBALS['TSFE']->fe_user->getKey('ses','tx_kiwipopup');
+					
+					//$sessionVars['image'][$this->cObj->data['uid']][$this->imageKey]
+					
+					if ($this->sD['image'][$this->cObj->data['uid']][$this->imageKey]) {
+						$showImage = false;
+					}
+				}
+				
+				if ($showImage) {
+					// generate file path
+					$imageConf['file'] = 'uploads/tx_kiwipopup/'.$image;
+					if (intval($this->ffdata['imageMaxW'])) $imageConf['file.']['maxW'] = intval($this->ffdata['imageMaxW']);
+					if (intval($this->ffdata['imageMaxH'])) $imageConf['file.']['maxH'] = intval($this->ffdata['imageMaxH']);
+					// render content
+					$content = $this->cObj->IMAGE($imageConf);
+				} else {
+					$content = '';
+				}
 			}
 
 			// HTML
@@ -118,7 +142,10 @@ class tx_kiwipopup_pi1 extends tslib_pibase {
 
 				// show caption?
 				if ($this->ffdata['showCaption']) {
-					$this->renderer->assign('caption', $this->ffdata['captionText']);
+					$captions = t3lib_div::trimExplode("\n",$this->ffdata['captionText'], true);
+					if ($this->ffdata[type] == 'IMAGE') $caption = $captions[$this->imageKey];
+					else $caption = $captions[0];
+					$this->renderer->assign('caption', $caption);
 				}
 
 				// autoclose enabled?
@@ -134,12 +161,13 @@ class tx_kiwipopup_pi1 extends tslib_pibase {
 				$this->renderer->assign('autoclose', $autoclose);
 				$this->renderer->assign('hideclosebutton', $hideclosebutton);
 
-
-
-				// link popuup?
+				// link popup?
 				if ($this->ffdata['link']) {
 					unset($linkconf);
-					$linkconf['parameter'] = $this->ffdata['link'];
+					$links = t3lib_div::trimExplode("\n", $this->ffdata['link'], true);
+					if ($this->ffdata[type] == 'IMAGE') $link = $links[$this->imageKey];
+					else $link = $link = $links[0];
+					$linkconf['parameter'] = $link;
 					$linkURL = $this->cObj->typoLink_URL($linkconf);
 					$this->renderer->assign('link', $linkURL);
 				}
@@ -172,6 +200,11 @@ class tx_kiwipopup_pi1 extends tslib_pibase {
 			case 'page': // PAGE ID
 				$sessionVars['page'][$GLOBALS['TSFE']->id] = 1;
 				break;
+			
+			case 'image': // IMAGE
+				$sessionVars['image'][$this->cObj->data['uid']][$this->imageKey] = 1;
+				break;
+			
 			case 'plugin': // PLUGIN UID
 			default:
 				$sessionVars['plugin'][$this->cObj->data['uid']] = 1;
@@ -203,6 +236,9 @@ class tx_kiwipopup_pi1 extends tslib_pibase {
 				break;
 			case 'plugin': // PLUGIN UID
 				if ($this->sD['plugin'][$this->cObj->data['uid']] == 1) return true;
+				break;
+			case 'picture': // PLUGIN UID
+				return false;
 				break;
 		}
 		// return false if no session var found

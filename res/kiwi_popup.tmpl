@@ -72,7 +72,12 @@
         <div id="kiwi_popup_inner">{content}</div>
         <f:if condition="{caption}"><div id="kiwi_popup_caption">{caption}</div></f:if>
         <f:if condition="{autoclose}">
-            <div id="kiwi_popup_autoclose">Dieses Fenster schliesst sich in <span id="kiwi_popup_timevalue">{autoclose}</span> s automatisch</div>
+            <div id="kiwi_popup_autoclose">
+				<f:translate key="LLL:EXT:kiwi_popup/locallang.xml:autoclose_text" />
+					<span id="kiwi_popup_timevalue">{autoclose}</span>
+				<f:translate key="LLL:EXT:kiwi_popup/locallang.xml:autoclose_seconds" />
+			</div>
+				
         </f:if>
 
     </div>

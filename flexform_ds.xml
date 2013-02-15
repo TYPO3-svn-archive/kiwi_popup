@@ -55,9 +55,9 @@
 							<allowed>jpg,gif,png,bmp</allowed>
 							<max_size>2048</max_size>
 							<uploadfolder>uploads/tx_kiwipopup</uploadfolder>
-							<maxitems>1</maxitems>
+							<maxitems>99</maxitems>
 							<minitems>1</minitems>
-							<size>1</size>
+							<size>5</size>
 						</config>
 					</TCEforms>
 				</popupfile>
@@ -157,6 +157,10 @@
 									<numIndex index="0">LLL:EXT:kiwi_popup/locallang.xml:sessionStorageOption.plugin</numIndex>
 									<numIndex index="1">plugin</numIndex>
 								</numIndex>
+								<numIndex index="3" type="array">
+									<numIndex index="0">LLL:EXT:kiwi_popup/locallang.xml:sessionStorageOption.image</numIndex>
+									<numIndex index="1">image</numIndex>
+								</numIndex>
 							</items>
 						</config>
 						<default>2</default>
@@ -236,7 +240,7 @@
 			</TCEforms>
 			<type>array</type>
 			<el>
-				<link>
+				<!--<link>
 					<TCEforms>
 						<label>LLL:EXT:kiwi_popup/locallang.xml:link</label>
 						<config>
@@ -257,7 +261,32 @@
 							</wizards>
 						</config>
 					</TCEforms>
+				</link>-->
+				
+				<link>
+					<TCEforms>
+						<label>LLL:EXT:kiwi_popup/locallang.xml:link</label>
+						<config>
+							<type>text</type>
+							<cols>52</cols>
+							<rows>5</rows>
+							<checkbox></checkbox>
+							<eval>trim</eval>
+							<wizards type="array">
+								<_PADDING type="integer">2</_PADDING>
+								<link type="array">
+									<type>popup</type>
+									<title>Link</title>
+									<icon>link_popup.gif</icon>
+									<script>browse_links.php?mode=wizard</script>
+									<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+								</link>
+							</wizards>
+						</config>
+					</TCEforms>
 				</link>
+				
+				
 			</el>
 		</ROOT>
 	</LINK>
